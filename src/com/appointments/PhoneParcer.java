@@ -7,25 +7,33 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder;
 
+/**
+ * Parces a phone number into attribute string
+ */
 public class PhoneParcer {
-	
-	public static void printPhoneNumber(String number) {
+	public static String parcePhoneNumber(String number) {
 
-		System.out.println("\nPHONE NUMBER IS " + number);
 		PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 		PhoneNumberOfflineGeocoder geocoder = PhoneNumberOfflineGeocoder.getInstance();
 		try {
 			PhoneNumber parsed = phoneUtil.parse(number, "CH");
-			parsedPrint(geocoder, parsed);
+			return parsedString(geocoder, parsed);
 		} catch (NumberParseException e) {
 			System.err.println("NumberParseException was thrown: " + e.toString());
 		}
+		return null;
+	}
+	public static void printPhoneNumber(String number) {
+
+		System.out.println(parcePhoneNumber(number));
 
 	}
 
-	private static void parsedPrint(PhoneNumberOfflineGeocoder geocoder, PhoneNumber parsed) {
-		System.out.println("COUNTRY CODE " + parsed.getCountryCode());
-		System.out.println("NATIONAL NUMBER " + parsed.getNationalNumber());
-		System.out.println("LOCATION " + geocoder.getDescriptionForNumber(parsed, Locale.ENGLISH));
+	
+	
+	private static String parsedString(PhoneNumberOfflineGeocoder geocoder, PhoneNumber parsed) {
+		return "COUNTRY CODE " + parsed.getCountryCode() + ""
+				+ "; NATIONAL NUMBER " + parsed.getNationalNumber() + 
+				"; LOCATION " + geocoder.getDescriptionForNumber(parsed, Locale.ENGLISH);
 	}
 }

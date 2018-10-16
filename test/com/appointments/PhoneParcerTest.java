@@ -5,7 +5,8 @@ package com.appointments;
  * https://github.com/googlei18n/libphonenumber
  */
 public class PhoneParcerTest {
-	public static void test() {
+	
+	public static void main(String[] args) {
 
 		PhoneParcer.printPhoneNumber("+7 999 078 69 99");
 		PhoneParcer.printPhoneNumber("+972 054 878 29 39");
