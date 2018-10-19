@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 
 
 @Path("/")
-public class AppointmentsRESTService {
+public class RESTServiceTelephone {
 
 	@POST
 	@Path("/phone")
