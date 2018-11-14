@@ -1,4 +1,4 @@
-package com.appointments;
+package com.appointments.util;
 
 import java.util.Locale;
 

@@ -1,4 +1,6 @@
-package com.appointments;
+package com.appointments.util;
+
+import com.appointments.util.PhoneParcer;
 
 /**
  * Library for parsing phone numbers
