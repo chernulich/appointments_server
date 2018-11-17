@@ -34,7 +34,7 @@ public class AppointmentsModel implements IAppointmentsModel {
 	}
 
 	/**
-	 * Attendee tries to create event; 
+	 * Attendee tries to create event; should return that the event was merely put into queue; 
 	 */
 	@Override
 	public boolean create(AppointmentCreation appEvent) {
@@ -44,22 +44,17 @@ public class AppointmentsModel implements IAppointmentsModel {
 		appEvent.setUid(uid);
 		
 		String organiserName = appEvent.getOrganizer();
-		
-		System.out.println(organiserName);
 
-		if (appointmentsToCreate.containsKey(organiserName)) {
-			
-			appointmentsToCreate.get(organiserName).add(appEvent);
-			
-		} else {
+		if (!appointmentsToCreate.containsKey(organiserName)) {
 			
 			appointmentsToCreate.put(organiserName, new LinkedList<AppointmentCreation>());
-			
+				
 		}
 		
-		Boolean created = true;
+		appointmentsToCreate.get(organiserName).add(appEvent);
+		
+		Boolean created = true; // should accept being created at Organiser side; so it's a call to appointmentsCreated;
 		//TODO: null pointer error if we query appointmentsCreated now; 
-	
 		
 		if ( created ) appointmentsToCreate.get(organiserName).remove(appEvent);
 			
