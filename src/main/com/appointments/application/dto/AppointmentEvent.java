@@ -4,6 +4,12 @@ import biweekly.component.VEvent;
 
 public class AppointmentEvent {
 	VEvent event;
+	
+	//rep invariant: event must contain attendee and organiser; 
+	
+	private void repCheck() {
+		//TODO: ensure rep invariant; 
+	}
 
 	public AppointmentEvent() {
 		super();
@@ -20,6 +26,11 @@ public class AppointmentEvent {
 
 	public void setEvent(VEvent event) {
 		this.event = event;
+	}
+
+	@Override
+	public String toString() {
+		return "AppointmentEvent [event=" + event.toString() + "]";
 	}
 
 

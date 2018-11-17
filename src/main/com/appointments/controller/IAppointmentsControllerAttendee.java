@@ -1,7 +1,11 @@
 package com.appointments.controller;
 
+import java.io.IOException;
+
 import com.appointments.application.dto.AppointmentEvent;
 import com.appointments.application.dto.EventUUID;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 
 /**
@@ -11,7 +15,7 @@ import com.appointments.application.dto.EventUUID;
  */
 public interface IAppointmentsControllerAttendee {
 	
-	public boolean CreateEvent(AppointmentEvent event);  // post
+	public Boolean CreateEvent(AppointmentEvent appEvent);  // post
 	
 	public AppointmentEvent ReportEvent(long uuid); // get
 	
@@ -19,6 +23,5 @@ public interface IAppointmentsControllerAttendee {
 	
 	public boolean DeleteEvent(EventUUID eventUUID); 	// post
 
-	
 	
 }

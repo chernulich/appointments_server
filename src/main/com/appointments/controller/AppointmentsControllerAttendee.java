@@ -12,6 +12,8 @@ import com.appointments.application.dto.AppointmentEvent;
 import com.appointments.application.dto.EventUUID;
 import com.appointments.model.AppointmentsModel;
 
+
+
 @RestController  
 @RequestMapping(value="/attendee")
 public class AppointmentsControllerAttendee implements IAppointmentsControllerAttendee {
@@ -22,7 +24,11 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 	
 	@Override
 	@PostMapping(value="/create", produces = "application/json")
-	public boolean CreateEvent(@RequestBody AppointmentEvent appEvent) {
+	public Boolean  CreateEvent(@RequestBody AppointmentEvent appEvent) {
+		
+		//TODO: implement https://stackoverflow.com/questions/37844101/can-you-configure-spring-controller-specific-jackson-deserialization
+		// as I can't deserialize VEvent because of multiple constructors; 
+		
 		String organiserName = appEvent.getEvent().getOrganizer().getCommonName();
 		return model.create(organiserName, appEvent.getEvent());
 	}
@@ -46,6 +52,12 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 	public boolean DeleteEvent(@RequestBody EventUUID uuid) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@GetMapping(value="/test")
+	public String test() {
+		// TODO Auto-generated method stub
+		return "Hello world";
 	}
 
 }

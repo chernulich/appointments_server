@@ -5,9 +5,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
 
+import org.springframework.stereotype.Component;
+
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
 
+
+@Component("AppointmentsModel")
 public class AppointmentsModel implements IAppointmentsModel {
 
 	private Map<String, Queue<VEvent>> appointmentsToCreate = new TreeMap<String, Queue<VEvent>>();
