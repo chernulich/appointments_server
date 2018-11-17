@@ -7,11 +7,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
+/**
+ * dto for appointment creation; appointment is event with Organizer and Attendee; 
+ *
+ */
 @Data
-public class AppointmentEvent {
+public class AppointmentCreation {
 	
 	UID uid;	
-	String organiser;
+	String organizer;
 	String attendee;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime start; 

@@ -8,30 +8,44 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
 
-import com.appointments.application.dto.AppointmentEvent;
+import com.appointments.application.dto.AppointmentCreation;
 
 import biweekly.component.VEvent;
 
 
+/**
+ * Mediator between organizer and attendee; 
+ */
 @Component("AppointmentsModel")
 public class AppointmentsModel implements IAppointmentsModel {
 
-	private Map<String, Queue<AppointmentEvent>> appointmentsToCreate = new TreeMap<String, Queue<AppointmentEvent>>();
+	/**
+	 * Map for storing pending events to create by user name; attendees add data into it
+	 */
+	private Map<String, Queue<AppointmentCreation>> appointmentsToCreate = new TreeMap<String, Queue<AppointmentCreation>>();
 	
+	/**
+	 * Map for storing event creation results; organizers add data into it; 
+	 */
 	private Map<String, Map<UID, Boolean>> appointmentsCreated = new TreeMap<String, Map<UID, Boolean>>();
 
 	public AppointmentsModel() {
 		super();
 	}
 
+	/**
+	 * Attendee tries to create event; 
+	 */
 	@Override
-	public boolean create(AppointmentEvent appEvent) {
+	public boolean create(AppointmentCreation appEvent) {
 		
 		UID uid = new UID();
 		
 		appEvent.setUid(uid);
 		
-		String organiserName = appEvent.getOrganiser();
+		String organiserName = appEvent.getOrganizer();
+		
+		System.out.println(organiserName);
 
 		if (appointmentsToCreate.containsKey(organiserName)) {
 			
@@ -39,11 +53,13 @@ public class AppointmentsModel implements IAppointmentsModel {
 			
 		} else {
 			
-			appointmentsToCreate.put(organiserName, new LinkedList<AppointmentEvent>());
+			appointmentsToCreate.put(organiserName, new LinkedList<AppointmentCreation>());
 			
 		}
 		
 		Boolean created = true;
+		//TODO: null pointer error if we query appointmentsCreated now; 
+	
 		
 		if ( created ) appointmentsToCreate.get(organiserName).remove(appEvent);
 			
@@ -69,8 +85,11 @@ public class AppointmentsModel implements IAppointmentsModel {
 
 	}
 
+	/**
+	 * Organiser gets events that he has to create; 
+	 */
 	@Override
-	public AppointmentEvent pendingToCreate(String organiserName) {
+	public AppointmentCreation pendingToCreate(String organiserName) {
 		
 		return appointmentsToCreate.get(organiserName).peek();
 		
@@ -94,8 +113,11 @@ public class AppointmentsModel implements IAppointmentsModel {
 		return 0;
 	}
 
+	/**
+	 * Organiser reports on event status;
+	 */
 	@Override
-	public void report(String organiserName, AppointmentEvent appEvent) {
+	public void report(String organiserName, AppointmentCreation appEvent) {
 		
 		UID UUID = appEvent.getUid();
 

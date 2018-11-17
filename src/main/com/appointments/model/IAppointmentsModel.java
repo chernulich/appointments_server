@@ -1,20 +1,20 @@
 package com.appointments.model;
 
-import com.appointments.application.dto.AppointmentEvent;
+import com.appointments.application.dto.AppointmentCreation;
 
 import biweekly.component.VEvent;
 
 public interface IAppointmentsModel {
-	public boolean create(AppointmentEvent appEvent);
+	public boolean create(AppointmentCreation appEvent);
 	public void read();
 	public void update();
 	public void delete();
 	
-	public AppointmentEvent pendingToCreate(String organiserName);
+	public AppointmentCreation pendingToCreate(String organiserName);
 	public long pendingToRead(String organiserName);
 	public VEvent pendingToUpdate(String organiserName);
 	public long pendingToDelete(String organiserName);
 	
-	public void report(String organiserName, AppointmentEvent appEvent);
+	public void report(String organiserName, AppointmentCreation appEvent);
 
 }

@@ -1,25 +1,22 @@
 package com.appointments.controller;
 
-import java.io.IOException;
-
-import com.appointments.application.dto.AppointmentEvent;
+import com.appointments.application.dto.AppointmentCreation;
 import com.appointments.application.dto.EventUUID;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 
 /**
  * Service for appointments attendee; 
+ * this are the endpoints attendee will reach when; 
  * @author shtirlitz
  *
  */
 public interface IAppointmentsControllerAttendee {
 	
-	public Boolean CreateEvent(AppointmentEvent appEvent);  // post
+	public Boolean CreateEvent(AppointmentCreation appEvent);  // post
 	
-	public AppointmentEvent ReportEvent(long uuid); // get
+	public AppointmentCreation ReportEvent(long uuid); // get
 	
-	public AppointmentEvent ChangeEvent(AppointmentEvent event); // post 
+	public AppointmentCreation ChangeEvent(AppointmentCreation event); // post 
 	
 	public boolean DeleteEvent(EventUUID eventUUID); 	// post
 

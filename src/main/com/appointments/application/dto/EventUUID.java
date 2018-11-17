@@ -1,26 +1,14 @@
 package com.appointments.application.dto;
 
+import java.rmi.server.UID;
+import java.time.LocalDateTime;
+
+import lombok.Data;
+
+/**
+ * dto for report operations: give me status of event with this UID 
+ */
+@Data
 public class EventUUID {
-	long UUID;
-
-	public EventUUID(long uUID) {
-		super();
-		UUID = uUID;
-	}
-	
-	public EventUUID() {
-		super();
-	}
-	
-	public long getUUID() {
-		return UUID;
-	}
-
-	public void setUUID(long uUID) {
-		UUID = uUID;
-	}
-
-
-	
-
+	UID UUID;
 }

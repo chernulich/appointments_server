@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appointments.application.dto.AppointmentEvent;
+import com.appointments.application.dto.AppointmentCreation;
 import com.appointments.application.dto.EventUUID;
 import com.appointments.model.AppointmentsModel;
 
@@ -24,25 +24,22 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 	
 	@Override
 	@PostMapping(value="/create", produces = "application/json")
-	public Boolean  CreateEvent(@RequestBody AppointmentEvent appEvent) {
-		
-		//TODO: implement https://stackoverflow.com/questions/37844101/can-you-configure-spring-controller-specific-jackson-deserialization
-		// as I can't deserialize VEvent because of multiple constructors; 
-		
+	public Boolean  CreateEvent(@RequestBody AppointmentCreation appEvent) {
+				
 		return model.create(appEvent);
 		
 	}
 
 	@Override
 	@GetMapping(value="/read", produces = "application/json")
-	public AppointmentEvent ReportEvent(@RequestParam(value="uuid") long uuid) {
+	public AppointmentCreation ReportEvent(@RequestParam(value="uuid") long uuid) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@PostMapping(value="/update", produces = "application/json")
-	public AppointmentEvent ChangeEvent(@RequestBody AppointmentEvent event) {
+	public AppointmentCreation ChangeEvent(@RequestBody AppointmentCreation event) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,7 +53,6 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 	
 	@GetMapping(value="/test")
 	public String test() {
-		// TODO Auto-generated method stub
 		return "Hello world";
 	}
 

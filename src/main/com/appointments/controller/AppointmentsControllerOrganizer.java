@@ -7,21 +7,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appointments.application.dto.AppointmentEvent;
+import com.appointments.application.dto.AppointmentCreation;
 import com.appointments.application.dto.EventUUID;
 import com.appointments.model.AppointmentsModel;
 
 
+
 @RestController  
 @RequestMapping(value="/organiser")
-public class AppointmentsControllerOrganiser implements IAppointmentsControllerOrganiser {
+public class AppointmentsControllerOrganizer implements IAppointmentsControllerOrganiser {
 
 	@Autowired 
 	private AppointmentsModel model;  //https://stackoverflow.com/a/52526618
 	
 	@Override
 	@GetMapping(value="/new", produces = "application/json")
-	public AppointmentEvent IncomingNewEvent(AppointmentEvent event) {
+	public AppointmentCreation IncomingNewEvent(AppointmentCreation event) {
 		
 		return null;
 	}
@@ -35,7 +36,7 @@ public class AppointmentsControllerOrganiser implements IAppointmentsControllerO
 
 	@Override
 	@GetMapping(value="/change", produces = "application/json")
-	public AppointmentEvent IncomingChangeEvent(AppointmentEvent event) {
+	public AppointmentCreation IncomingChangeEvent(AppointmentCreation event) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -49,11 +50,11 @@ public class AppointmentsControllerOrganiser implements IAppointmentsControllerO
 
 	@Override
 	@PostMapping(value="/report", produces = "application/json")
-	public void EventReport(@RequestBody AppointmentEvent appEvent) {
+	public void EventReport(@RequestBody AppointmentCreation appEvent) {
 		
-		String organiserName = appEvent.getOrganiser();
+		String organizerName = appEvent.getOrganizer();
 		
-		model.report(organiserName, appEvent);
+		model.report(organizerName, appEvent);
 	
 	}
 

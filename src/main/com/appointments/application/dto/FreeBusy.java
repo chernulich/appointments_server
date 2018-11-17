@@ -1,25 +1,14 @@
 package com.appointments.application.dto;
 
 import biweekly.component.VFreeBusy;
+import lombok.Data;
 
+
+/**
+ * Class for passing freebusy data;
+ *
+ */
+@Data
 public class FreeBusy {
-	private VFreeBusy freeBusy;
-
-	public FreeBusy(VFreeBusy freeBusy) {
-		super();
-		this.freeBusy = freeBusy;
-	}
-
-	public FreeBusy() {
-		super();
-	}
-
-	public VFreeBusy getFreeBusy() {
-		return freeBusy;
-	}
-
-	public void setFreeBusy(VFreeBusy freeBusy) {
-		this.freeBusy = freeBusy;
-	}
-	
+	private VFreeBusy freeBusy;	
 }
