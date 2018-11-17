@@ -1,37 +1,24 @@
 package com.appointments.application.dto;
 
-import biweekly.component.VEvent;
+import java.rmi.server.UID;
+import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
+@Data
 public class AppointmentEvent {
-	VEvent event;
 	
-	//rep invariant: event must contain attendee and organiser; 
+	UID uid;	
+	String organiser;
+	String attendee;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	LocalDateTime start; 
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	LocalDateTime end; 
+	boolean created;
+	boolean approved;
 	
-	private void repCheck() {
-		//TODO: ensure rep invariant; 
-	}
-
-	public AppointmentEvent() {
-		super();
-	}
-	
-	public AppointmentEvent(VEvent event) {
-		super();
-		this.event = event;
-	}
-	
-	public VEvent getEvent() {
-		return event;
-	}
-
-	public void setEvent(VEvent event) {
-		this.event = event;
-	}
-
-	@Override
-	public String toString() {
-		return "AppointmentEvent [event=" + event.toString() + "]";
-	}
-
-
 }

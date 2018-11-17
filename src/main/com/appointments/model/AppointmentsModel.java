@@ -1,5 +1,6 @@
 package com.appointments.model;
 
+import java.rmi.server.UID;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -7,39 +8,44 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
 
+import com.appointments.application.dto.AppointmentEvent;
+
 import biweekly.component.VEvent;
-import biweekly.property.Uid;
 
 
 @Component("AppointmentsModel")
 public class AppointmentsModel implements IAppointmentsModel {
 
-	private Map<String, Queue<VEvent>> appointmentsToCreate = new TreeMap<String, Queue<VEvent>>();
+	private Map<String, Queue<AppointmentEvent>> appointmentsToCreate = new TreeMap<String, Queue<AppointmentEvent>>();
 	
-	private Map<String, Map<Uid, Boolean>> appointmentsCreated = new TreeMap<String, Map<Uid, Boolean>>();
+	private Map<String, Map<UID, Boolean>> appointmentsCreated = new TreeMap<String, Map<UID, Boolean>>();
 
 	public AppointmentsModel() {
 		super();
 	}
 
 	@Override
-	public boolean create(String organiserName, VEvent event) {
+	public boolean create(AppointmentEvent appEvent) {
 		
-		Uid UUID = event.getUid();
+		UID uid = new UID();
+		
+		appEvent.setUid(uid);
+		
+		String organiserName = appEvent.getOrganiser();
 
 		if (appointmentsToCreate.containsKey(organiserName)) {
 			
-			appointmentsToCreate.get(organiserName).add(event);
+			appointmentsToCreate.get(organiserName).add(appEvent);
 			
 		} else {
 			
-			appointmentsToCreate.put(organiserName, new LinkedList<VEvent>());
+			appointmentsToCreate.put(organiserName, new LinkedList<AppointmentEvent>());
 			
 		}
 		
-		Boolean created = appointmentsCreated.get(organiserName).get(UUID);
+		Boolean created = true;
 		
-		if ( created ) appointmentsToCreate.get(organiserName).remove(event);
+		if ( created ) appointmentsToCreate.get(organiserName).remove(appEvent);
 			
 		return created;
 
@@ -64,7 +70,7 @@ public class AppointmentsModel implements IAppointmentsModel {
 	}
 
 	@Override
-	public VEvent pendingToCreate(String organiserName) {
+	public AppointmentEvent pendingToCreate(String organiserName) {
 		
 		return appointmentsToCreate.get(organiserName).peek();
 		
@@ -89,9 +95,9 @@ public class AppointmentsModel implements IAppointmentsModel {
 	}
 
 	@Override
-	public void report(String organiserName, VEvent event) {
+	public void report(String organiserName, AppointmentEvent appEvent) {
 		
-		Uid UUID = event.getUid();
+		UID UUID = appEvent.getUid();
 
 		Boolean created = appointmentsCreated.get(organiserName).get(UUID);
 		

@@ -29,8 +29,8 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 		//TODO: implement https://stackoverflow.com/questions/37844101/can-you-configure-spring-controller-specific-jackson-deserialization
 		// as I can't deserialize VEvent because of multiple constructors; 
 		
-		String organiserName = appEvent.getEvent().getOrganizer().getCommonName();
-		return model.create(organiserName, appEvent.getEvent());
+		return model.create(appEvent);
+		
 	}
 
 	@Override

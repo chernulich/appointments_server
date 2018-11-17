@@ -51,9 +51,9 @@ public class AppointmentsControllerOrganiser implements IAppointmentsControllerO
 	@PostMapping(value="/report", produces = "application/json")
 	public void EventReport(@RequestBody AppointmentEvent appEvent) {
 		
-		String organiserName = appEvent.getEvent().getOrganizer().getCommonName();
+		String organiserName = appEvent.getOrganiser();
 		
-		model.report(organiserName, appEvent.getEvent());
+		model.report(organiserName, appEvent);
 	
 	}
 
