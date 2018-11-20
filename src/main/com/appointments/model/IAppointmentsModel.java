@@ -1,5 +1,7 @@
 package com.appointments.model;
 
+import java.util.UUID;
+
 import com.appointments.application.dto.AppointmentCreation;
 
 import biweekly.component.VEvent;
@@ -11,9 +13,9 @@ public interface IAppointmentsModel {
 	public void delete();
 	
 	public AppointmentCreation pendingToCreate(String organiserName);
-	public long pendingToRead(String organiserName);
+	public UUID pendingToReport(String organiserName);
 	public VEvent pendingToUpdate(String organiserName);
-	public long pendingToDelete(String organiserName);
+	public UUID pendingToDelete(String organiserName);
 	
 	public void report(String organiserName, AppointmentCreation appEvent);
 

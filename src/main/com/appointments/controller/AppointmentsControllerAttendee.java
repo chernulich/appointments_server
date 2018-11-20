@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.appointments.application.dto.AppointmentCreation;
 import com.appointments.application.dto.EventUUID;
-import com.appointments.model.AppointmentsModel;
+import com.appointments.model.IAppointmentsModel;
 
 
 
@@ -20,7 +20,7 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 
 
 	@Autowired 
-	private AppointmentsModel model;  	//https://stackoverflow.com/a/52526618
+	private IAppointmentsModel model;  	//https://stackoverflow.com/a/52526618
 	
 	@Override
 	@PostMapping(value="/create", produces = "application/json")

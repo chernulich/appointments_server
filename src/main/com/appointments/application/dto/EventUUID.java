@@ -1,14 +1,21 @@
 package com.appointments.application.dto;
 
-import java.rmi.server.UID;
-import java.time.LocalDateTime;
+import java.util.UUID;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * dto for report operations: give me status of event with this UID 
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class EventUUID {
-	UID UUID;
+	UUID uid;
 }

@@ -1,10 +1,10 @@
 package com.appointments.model;
 
-import java.rmi.server.UID;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class AppointmentsModel implements IAppointmentsModel {
 	/**
 	 * Map for storing event creation results; organizers add data into it; 
 	 */
-	private Map<String, Map<UID, Boolean>> appointmentsCreated = new TreeMap<String, Map<UID, Boolean>>();
+	private Map<String, Map<UUID, Boolean>> appointmentsCreated = new TreeMap<String, Map<UUID, Boolean>>();
 
 	public AppointmentsModel() {
 		super();
@@ -39,7 +39,7 @@ public class AppointmentsModel implements IAppointmentsModel {
 	@Override
 	public boolean create(AppointmentCreation appEvent) {
 		
-		UID uid = new UID();
+		UUID uid = UUID.randomUUID();
 		
 		appEvent.setUid(uid);
 		
@@ -55,8 +55,6 @@ public class AppointmentsModel implements IAppointmentsModel {
 		
 		Boolean created = true; // should accept being created at Organiser side; so it's a call to appointmentsCreated;
 		//TODO: null pointer error if we query appointmentsCreated now; 
-		
-		if ( created ) appointmentsToCreate.get(organiserName).remove(appEvent);
 			
 		return created;
 
@@ -91,9 +89,9 @@ public class AppointmentsModel implements IAppointmentsModel {
 	}
 
 	@Override
-	public long pendingToRead(String organiserName) {
+	public UUID pendingToReport(String organiserName) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
@@ -103,9 +101,9 @@ public class AppointmentsModel implements IAppointmentsModel {
 	}
 
 	@Override
-	public long pendingToDelete(String organiserName) {
+	public UUID pendingToDelete(String organiserName) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	/**
@@ -114,12 +112,15 @@ public class AppointmentsModel implements IAppointmentsModel {
 	@Override
 	public void report(String organiserName, AppointmentCreation appEvent) {
 		
-		UID UUID = appEvent.getUid();
+		UUID UUID = appEvent.getUid();
 
 		Boolean created = appointmentsCreated.get(organiserName).get(UUID);
 		
 		if (! created ) appointmentsCreated.get(organiserName).put(UUID, Boolean.TRUE);
 		
+		if ( created ) appointmentsToCreate.get(organiserName).remove(); 
+		/* this will work only on one event; for multiple events ther's a chance that report will be on any other event and not the latest; 
+		*/
 	}
 
 }

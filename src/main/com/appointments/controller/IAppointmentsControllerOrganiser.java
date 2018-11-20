@@ -9,14 +9,15 @@ import com.appointments.application.dto.EventUUID;
  */
 public interface IAppointmentsControllerOrganiser {
 	
-	public AppointmentCreation IncomingNewEvent(AppointmentCreation event); // get
+	public AppointmentCreation IncomingNewEvent(String organiserName); // get
 
-	public EventUUID IncomingReport(EventUUID uuid); // get
+	public EventUUID IncomingReport(String organiserName); // get
 
-	public AppointmentCreation IncomingChangeEvent(AppointmentCreation event); // get
+	public AppointmentCreation IncomingChangeEvent(String organiserName); // get
 
-	public EventUUID IncomingDeleteEvent(EventUUID uuid); // get
+	public EventUUID IncomingDeleteEvent(String organiserName); // get
 	
 	public void EventReport(AppointmentCreation appEvent); // post
+
 	
 }
