@@ -1,5 +1,7 @@
 package com.appointments.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appointments.application.dto.AppointmentCreation;
-import com.appointments.application.dto.EventUUID;
-import com.appointments.model.AppointmentsModel;
 import com.appointments.model.IAppointmentsModel;
 
 
@@ -25,18 +25,16 @@ public class AppointmentsControllerOrganizer implements IAppointmentsControllerO
 	@Override
 	@GetMapping(value="/create/", produces = "application/json")
 	public AppointmentCreation IncomingNewEvent(@RequestParam(value="orgname") String organiserName) {
-		
-		System.out.println(organiserName);
-		
+				
 		return model.pendingToCreate(organiserName);
 		
 	}
 
 	@Override
 	@GetMapping(value="/read", produces = "application/json")
-	public EventUUID IncomingReport(@RequestParam(value="orgname") String organiserName) {
+	public UUID IncomingReport(@RequestParam(value="orgname") String organiserName) {
 		
-		return new EventUUID(model.pendingToReport(organiserName));
+		return model.pendingToReport(organiserName);
 	}
 
 	@Override
@@ -48,18 +46,18 @@ public class AppointmentsControllerOrganizer implements IAppointmentsControllerO
 
 	@Override
 	@GetMapping(value="/delete", produces = "application/json")
-	public EventUUID IncomingDeleteEvent(@RequestParam(value="orgname") String organiserName) {
+	public UUID IncomingDeleteEvent(@RequestParam(value="orgname") String organiserName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	@PostMapping(value="/report", produces = "application/json")
-	public void EventReport(@RequestBody AppointmentCreation appEvent) {
+	public Boolean EventReport(@RequestBody AppointmentCreation appEvent) {
 		
 		String organizerName = appEvent.getOrganizer();
 		
-		model.report(organizerName, appEvent);
+		return model.organiserReport(organizerName, appEvent);
 	
 	}
 

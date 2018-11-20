@@ -1,10 +1,12 @@
 package com.appointments.model;
 
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import org.springframework.stereotype.Component;
 
@@ -22,13 +24,8 @@ public class AppointmentsModel implements IAppointmentsModel {
 	/**
 	 * Map for storing pending events to create by user name; attendees add data into it
 	 */
-	private Map<String, Queue<AppointmentCreation>> appointmentsToCreate = new TreeMap<String, Queue<AppointmentCreation>>();
+	private Map<String, Map<UUID, AppointmentCreation>> appointmentsToCreate = new ConcurrentHashMap<String, Map<UUID, AppointmentCreation>>();
 	
-	/**
-	 * Map for storing event creation results; organizers add data into it; 
-	 */
-	private Map<String, Map<UUID, Boolean>> appointmentsCreated = new TreeMap<String, Map<UUID, Boolean>>();
-
 	public AppointmentsModel() {
 		super();
 	}
@@ -37,33 +34,29 @@ public class AppointmentsModel implements IAppointmentsModel {
 	 * Attendee tries to create event; should return that the event was merely put into queue; 
 	 */
 	@Override
-	public boolean create(AppointmentCreation appEvent) {
-		
-		UUID uid = UUID.randomUUID();
-		
-		appEvent.setUid(uid);
+	public boolean create(AppointmentCreation appEvent) {	
 		
 		String organiserName = appEvent.getOrganizer();
 
 		if (!appointmentsToCreate.containsKey(organiserName)) {
 			
-			appointmentsToCreate.put(organiserName, new LinkedList<AppointmentCreation>());
+			appointmentsToCreate.put(organiserName, new TreeMap<UUID, AppointmentCreation>());
 				
 		}
 		
-		appointmentsToCreate.get(organiserName).add(appEvent);
+		appointmentsToCreate.get(organiserName).put(appEvent.getUid(), appEvent);
 		
-		Boolean created = true; // should accept being created at Organiser side; so it's a call to appointmentsCreated;
-		//TODO: null pointer error if we query appointmentsCreated now; 
+		Boolean created = true; // unknown how to reflect successful addition to appointmentsToCreate; 
 			
 		return created;
 
 	}
 
 	@Override
-	public void read() {
-		// TODO Auto-generated method stub
-
+	public AppointmentCreation read(String organiserName, UUID uid) {
+		
+		return appointmentsToCreate.get(organiserName).get(uid);
+		
 	}
 
 	@Override
@@ -84,8 +77,16 @@ public class AppointmentsModel implements IAppointmentsModel {
 	@Override
 	public AppointmentCreation pendingToCreate(String organiserName) {
 		
-		return appointmentsToCreate.get(organiserName).peek();
+		Map<UUID, AppointmentCreation> mapOfPendingCreations = appointmentsToCreate.get(organiserName);
+
+		if (mapOfPendingCreations.size() == 0) return null; 
 		
+		for (Entry<UUID, AppointmentCreation> entry : mapOfPendingCreations.entrySet()) {
+			if (entry.getValue().isCreated() == false) return entry.getValue();
+		}
+		
+		return null; 
+	
 	}
 
 	@Override
@@ -110,17 +111,27 @@ public class AppointmentsModel implements IAppointmentsModel {
 	 * Organiser reports on event status;
 	 */
 	@Override
-	public void report(String organiserName, AppointmentCreation appEvent) {
+	public Boolean organiserReport(String organiserName, AppointmentCreation appEvent) {
 		
 		UUID UUID = appEvent.getUid();
+		
+		if (!appointmentsToCreate.containsKey(organiserName)) { appointmentsToCreate.put(organiserName, new TreeMap<UUID, AppointmentCreation>());}
+		
+		appointmentsToCreate.get(organiserName).put(UUID, appEvent);
+		
+		return true; // unknown how to reflect successful report; 
+	}
 
-		Boolean created = appointmentsCreated.get(organiserName).get(UUID);
+	private void displayMapByOrganiser(String organiserName) {
 		
-		if (! created ) appointmentsCreated.get(organiserName).put(UUID, Boolean.TRUE);
+		for(Entry<UUID, AppointmentCreation> entry : appointmentsToCreate.get(organiserName).entrySet()){
+			System.out.println("UUID "+entry.getKey()+" entry "+entry.getValue().toString());
+		}
 		
-		if ( created ) appointmentsToCreate.get(organiserName).remove(); 
-		/* this will work only on one event; for multiple events ther's a chance that report will be on any other event and not the latest; 
-		*/
+	}
+	
+	private void displayMap() {
+		//TODO:full map display
 	}
 
 }

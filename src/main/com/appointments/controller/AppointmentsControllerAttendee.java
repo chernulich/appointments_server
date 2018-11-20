@@ -1,5 +1,7 @@
 package com.appointments.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appointments.application.dto.AppointmentCreation;
-import com.appointments.application.dto.EventUUID;
 import com.appointments.model.IAppointmentsModel;
 
 
@@ -32,9 +33,9 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 
 	@Override
 	@GetMapping(value="/read", produces = "application/json")
-	public AppointmentCreation ReportEvent(@RequestParam(value="uuid") long uuid) {
-		// TODO Auto-generated method stub
-		return null;
+	public AppointmentCreation ReportEvent(@RequestParam(value="orgname") String organiserName, @RequestParam(value="uid") UUID uid) {
+		
+		return model.read(organiserName, uid);
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class AppointmentsControllerAttendee implements IAppointmentsControllerAt
 
 	@Override
 	@PostMapping(value="/delete", produces = "application/json")
-	public boolean DeleteEvent(@RequestBody EventUUID uuid) {
+	public boolean DeleteEvent(@RequestBody String organiserName, @RequestBody UUID uuid) {
 		// TODO Auto-generated method stub
 		return false;
 	}

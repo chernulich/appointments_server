@@ -8,7 +8,7 @@ import biweekly.component.VEvent;
 
 public interface IAppointmentsModel {
 	public boolean create(AppointmentCreation appEvent);
-	public void read();
+	public AppointmentCreation read(String organiserName, UUID uid);
 	public void update();
 	public void delete();
 	
@@ -17,6 +17,6 @@ public interface IAppointmentsModel {
 	public VEvent pendingToUpdate(String organiserName);
 	public UUID pendingToDelete(String organiserName);
 	
-	public void report(String organiserName, AppointmentCreation appEvent);
+	public Boolean organiserReport(String organiserName, AppointmentCreation appEvent);
 
 }
